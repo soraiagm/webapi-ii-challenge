@@ -1,8 +1,9 @@
 const express = require('express');
 
-const posts = require('./data/seeds/01-posts.js');
+// const posts = require('./data/seeds/01-posts.js');
+const posts = require('./data/db.js');
 
-const comments = require('./data/seeds/02-comments.js');
+// const comments = require('./data/seeds/02-comments.js');
 
 const server = express();
 
@@ -56,21 +57,20 @@ server.post('/api/posts/:id/comments:', (req, res) => {
    
 
 server.get('/', (req, res) => {
+    console.log(req.body);
     res.send(`
     <h2>Lambda Posts API</h2>`);
 });
 
 server.get('/api/posts', (req, res) => {
-    posts.find()
-    .then(posts => {
-      res.status(200).json(posts);
+        posts.find(req.query)
+            .then(posts => {
+            res.status(200).json(posts);
     })
-    .catch(error => {
-      // log error to database
-      console.log(error);
-      res.status(500).json(
-          { error: "The posts information could not be retrieved." }
-          );
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                message: "The posts information could not be retrieved." });
       });
   });
 
