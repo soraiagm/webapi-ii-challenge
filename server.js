@@ -2,6 +2,8 @@ const express = require('express');
 
 const posts = require('./data/seeds/01-posts.js');
 
+const comments = require('./data/seeds/02-comments.js');
+
 const server = express();
 
 server.use(express.json());
